@@ -29,9 +29,9 @@ def COM_segments(x_proximal,x_distal,y_proximal,y_distal,percentage_of_COM_segme
     x = []
     y = []
     for i in range(len(x_proximal)):
-        x_data = x_proximal[i] + (percentage_of_COM_segment) * (x_distal[i] - x_proximal[i])
+        x_data = (x_proximal[i] + (percentage_of_COM_segment) * (x_distal[i] - x_proximal[i])) * xmax
         x.append(x_data)
-        y_data = y_proximal[i] + (percentage_of_COM_segment) * (y_distal[i] - y_proximal[i])
+        y_data = (y_proximal[i] + (percentage_of_COM_segment) * (y_distal[i] - y_proximal[i])) * ymax
         y.append(y_data)
     return x,y
 #βραχιωνας
