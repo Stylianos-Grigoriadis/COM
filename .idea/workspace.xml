@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0ae82b58-e7fa-4fcc-82de-2d56780699cb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+    <list default="true" id="0ae82b58-e7fa-4fcc-82de-2d56780699cb" name="Changes" comment="sdf">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/COM.py" beforeDir="false" afterPath="$PROJECT_DIR$/COM.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11,6 +12,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2Hd1I6JkGwRMhDxAFJ4djMrUL71" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -60,6 +64,29 @@
       <option name="presentableId" value="Default" />
       <updated>1668600064663</updated>
     </task>
+    <task id="LOCAL-00001" summary="sdf">
+      <created>1668600162631</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1668600162631</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="sdf" />
+    <option name="LAST_COMMIT_MESSAGE" value="sdf" />
   </component>
 </project>
