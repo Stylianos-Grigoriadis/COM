@@ -39,4 +39,5 @@ right_forarm = COM_segments(df_COM['right_shoulder_x'],df_COM['right_elbow_x'],d
 print(type(right_forarm))
 print(right_forarm)
 print(right_forarm[1])
+# vasili
 
