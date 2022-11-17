@@ -16,7 +16,7 @@ df_COM = pd.read_csv('C:\Python_projects\Margin of Stability\data\Big Movement w
                      # skiprows=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
                      )
 print(df_COM)
-big_movement_pixel_of_100cm = 413
+big_movement_pixel_of_100cm = 413 #pixel
 ymax = (1280*100)/big_movement_pixel_of_100cm
 xmax = (720*100)/big_movement_pixel_of_100cm
 print('ymax = ' +str(ymax))
@@ -25,7 +25,7 @@ print('xmax = ' +str(xmax))
 # plot = plt.plot(df_COM['right_wrist_y'])
 #plt.show()
 
-def COM_segments(x_proximal,x_distal,y_proximal,y_distal,distance_of_CoM_of_each_segment_from_the_proximal,mi):\
+def COM_segments(x_proximal,x_distal,y_proximal,y_distal,distance_of_CoM_of_each_segment_from_the_proximal,mi):
     #mi = εκατοστιαια ποσοτητα μαζας καθε μελους
     #print(type(x_proximal))
     #if x_proximal[0] == 'left_heel_x':
@@ -34,9 +34,11 @@ def COM_segments(x_proximal,x_distal,y_proximal,y_distal,distance_of_CoM_of_each
     x = []
     y = []
     for i in range(len(x_proximal)):
-        x_data = (x_proximal[i] + (distance_of_CoM_of_each_segment_from_the_proximal) * (x_distal[i] - x_proximal[i])) * xmax
+        x_data = (x_proximal[i] - (x_proximal[i] - x_distal[i]) * distance_of_CoM_of_each_segment_from_the_proximal) * xmax
+        #x_data = (x_proximal[i] + (distance_of_CoM_of_each_segment_from_the_proximal) * (x_distal[i] - x_proximal[i])) * xmax
         x.append(x_data*mi)
-        y_data = (y_proximal[i] + (distance_of_CoM_of_each_segment_from_the_proximal) * (y_distal[i] - y_proximal[i])) * ymax
+        y_data = (y_proximal[i] - (y_proximal[i] - y_distal[i]) * distance_of_CoM_of_each_segment_from_the_proximal) * ymax
+        #y_data = (y_proximal[i] + (distance_of_CoM_of_each_segment_from_the_proximal) * (y_distal[i] - y_proximal[i])) * ymax
         y.append(y_data*mi)
     return x,y
 #find the coordinates of each segment
@@ -90,9 +92,9 @@ for i in range(len(df_COM['right_shoulder_x'])):
     distal_trunk_x.append(distal_x)
     distal_y = ((df_COM['right_hip_y'][i] + df_COM['left_hip_y'][i]) / 2) * ymax
     distal_trunk_y.append(distal_y)
-print(proximal_trunk_x)
+#print(proximal_trunk_x)
 trunk = COM_segments(proximal_trunk_x,distal_trunk_x,proximal_trunk_y,distal_trunk_y,0.500,0.495)
-print(type(trunk))
+#print(type(trunk))
 #To find the head and neck coordinates we will add 12.5 cm to each of the nose data so that we can find the
 #highest position of the head at each time and use the proximal trunk positions (x,y) as proximal position of
 #the neck
@@ -105,11 +107,25 @@ for i in range(len(df_COM['nose_x'])):
     head_neck_distal_x.append(x)
     y = (df_COM['nose_y'][i] * ymax) + 12.5
     head_neck_distal_y.append(y)
-print(head_neck_distal_x)
+#print(head_neck_distal_x)
 head_neck = COM_segments(proximal_trunk_x,head_neck_distal_x,proximal_trunk_y,head_neck_distal_y,0.567,0.079)
 
 #To find the coordinates (x,y) of the CoM
-print(len(head_neck))
+print(head_neck[0])
+print(head_neck[1])
+print(head_neck[0][1])
 #for i in range(len(head_neck)):
+COM_x = []
+COM_y = []
+for i in range(len(head_neck[0])):
+    COMx = right_upperarm[0][i] + left_upperarm[0][i] + right_forarm[0][i] + left_forarm[0][i] + right_thigh[0][i] + left_thigh[0][i] + right_shank[0][i] + left_shank[0][i] + right_foot[0][i] + left_foot[0][i] + trunk[0][i] + head_neck[0][i]
+    COMy = right_upperarm[1][i] + left_upperarm[1][i] + right_forarm[1][i] + left_forarm[1][i] + right_thigh[1][i] + left_thigh[1][i] + right_shank[1][i] + left_shank[1][i] + right_foot[1][i] + left_foot[1][i] + trunk[1][i] + head_neck[1][i]
+    COM_x.append(COMx)
+    COM_y.append(COMy)
 
+print(COM_x)
+print(COM_y)
+plot = plt.plot(COM_x,COM_y)
+#plt.legend('Center of Mass')
+plt.show()
 
