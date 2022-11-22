@@ -4,14 +4,14 @@ import matplotlib.pyplot as plt
 from scipy.signal import find_peaks
 from tkinter import filedialog
 from matplotlib.widgets import SpanSelector
-
+import lib
 
 # filename = filedialog.askopenfilename(initialdir="C:\\",
 #                                       # initioaldir = "Which directory will the program open",
 #                                       title="Select CSV File",
 #                                       # title = "Title",
 #                                       filetypes=(("csv files", "*.csv"), ("all files", "*.*")))
-import lib
+
 
 df_COM = pd.read_csv('Big Movement with first cut video.csv',
                      delimiter=',',
@@ -21,11 +21,11 @@ df_COM = pd.read_csv('Big Movement with first cut video.csv',
                      )
 #print(df_COM)
 column_names = list(df_COM.columns.values)
-print(column_names)
+
 column_names.remove('timestamp')
 column_names.remove('angle_left')
 column_names.remove('angle_right')
-print(column_names)
+
 
 
 big_movement_pixel_of_1m = 413 #pixel
@@ -33,9 +33,7 @@ ymax = (1280*1)/big_movement_pixel_of_1m
 xmax = (720*1)/big_movement_pixel_of_1m
 print('ymax = ' +str(ymax))
 print('xmax = ' +str(xmax))
-#plot = plt.plot(df_COM['right_wrist_x'],df_COM['right_wrist_y'])
-# plot = plt.plot(df_COM['right_wrist_y'])
-#plt.show()
+
 
 def COM_segments(x_proximal,x_distal,y_proximal,y_distal,distance_of_CoM_of_each_segment_from_the_proximal,mi):
     #mi = εκατοστιαια ποσοτητα μαζας καθε μελους
@@ -136,15 +134,7 @@ for i in range(len(head_neck[0])):
     COM_x.append(COMx)
     COM_y.append(COMy)
 
-# print(COM_x)
-# print(COM_y)
-# #plot = plt.plot(COM_x,COM_y)
-# fig,(ax1,ax2,ax3)=plt.subplots(3)
-# ax1.plot(COM_x)
-# ax2.plot(COM_y)
-# ax3.plot(COM_x,COM_y)
-# #plt.legend('Center of Mass')
-# plt.show()
+
 
 df_force = pd.read_csv('Big Movement force.csv',
                      delimiter=',',
@@ -153,7 +143,7 @@ df_force = pd.read_csv('Big Movement force.csv',
                      skiprows=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
                      index_col= False
                      )
-print(df_force.columns)
+
 df_force.rename(columns = {'Time (s)':'Time (s)',
                               'CHANNEL_1' : 'CHANNEL_1L',
                               'CHANNEL_2' : 'CHANNEL_2L',
@@ -165,17 +155,8 @@ df_force.rename(columns = {'Time (s)':'Time (s)',
                               'CHANNEL_3.1' : 'CHANNEL_3R',
                               'CHANNEL_4.1' : 'CHANNEL_4R'
                            }, inplace = True)
-print(df_force.columns)
-# plt.plot(df_force['CHANNEL_1.1'], df_force['CHANNEL_1'])
-# plt.show()
-# fig,(ax1,ax2,ax3,ax4)=plt.subplots(4)
-# ax1.plot(df_force['CHANNEL_1.1'])
-# ax2.plot(df_force['CHANNEL_2.1'])
-# ax3.plot(df_force['CHANNEL_3.1'])
-# ax4.plot(df_force['CHANNEL_4.1'])
-#
-# #plt.legend('Center of Mass')
-# plt.show()
+
+
 list_of_right_platform = []
 
 for i in range(len(df_force['CHANNEL_1R'])):
@@ -197,8 +178,7 @@ def onselect(xmin, xmax):
             max_y = list_of_right_platform[l]
             max_y_index = l
 
-    print(max_y)
-    print(max_y_index)
+
 
 span = SpanSelector(
     ax1,
@@ -210,13 +190,10 @@ span = SpanSelector(
     drag_from_anywhere=True
 )
 plt.show()
-print(df_force)
 
-print(df_force)
-print(len(COM_y))
 df_force = df_force[max_y_index:].reset_index()
 del df_force["index"]
-print(df_force)
+
 list_of_right_platform = list_of_right_platform[max_y_index:]
 COM_y = COM_y[:797]
 COM_x = COM_x[:797]
@@ -234,11 +211,44 @@ plt.show()
 
 CoP = lib.compute_cop(31,26,df_force)
 
+
+
+list_to_plot_CoP_x = []
+for i in range(len(CoP[0])):
+    list_to_plot_CoP_x.append(CoP[0][i])
+print(len(list_to_plot_CoP_x))
+print(list_to_plot_CoP_x)
+list_to_plot_CoP_x = list_to_plot_CoP_x[100:]
+
+list_to_plot_CoM_x = []
+for i in range(len(COM_x)):
+    list_to_plot_CoM_x.append(COM_x[i])
+list_to_plot_CoM_x=list_to_plot_CoM_x[100:]
+
 fig,ax=plt.subplots()
-ax.plot(CoP[0], label = 'CoP',color='blue')
+ax.plot(list_to_plot_CoP_x, label = 'CoP',color='blue')
 ax2 = ax.twinx()
-plt.plot(COM_x,label='CoM',color='red')
+plt.plot(list_to_plot_CoM_x,label='CoM',color='red')
 plt.legend()
 plt.show()
-print(CoP[0])
 
+list_to_plot_CoP_y = []
+for i in range(len(CoP[1])):
+    list_to_plot_CoP_y.append(CoP[1][i])
+list_to_plot_CoP_y = list_to_plot_CoP_y[100:]
+
+list_to_plot_CoM_y = []
+for i in range(len(COM_y)):
+    list_to_plot_CoM_y.append(COM_y[i])
+list_to_plot_CoM_y=list_to_plot_CoM_y[100:]
+
+fig,(ax,ax1)=plt.subplots(2)
+ax.plot(list_to_plot_CoP_x, label = 'CoP',color='blue')
+ax2 = ax.twinx()
+ax2.plot(list_to_plot_CoM_x,label='CoM',color='red')
+ax1.plot(list_to_plot_CoP_y, label = 'CoP',color='blue')
+ax3 = ax1.twinx()
+ax3.plot(list_to_plot_CoM_y,label='CoM',color='red')
+
+plt.legend()
+plt.show()
